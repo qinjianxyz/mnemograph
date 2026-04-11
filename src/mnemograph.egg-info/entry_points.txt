@@ -1,0 +1,4 @@
+[console_scripts]
+mnemograph = mnemograph.cli:main
+mnemograph-benchmark = mnemograph.benchmarks.cli:main
+mnemograph-eval = mnemograph.evals.cli:main

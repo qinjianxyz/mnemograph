@@ -1,0 +1,15 @@
+id: company_pricing_conflict
+company_url: https://example.com
+steps:
+  - action: ingest_text
+    source: website
+    content: |
+      Stripe offers Billing. Pro costs $49/month.
+  - action: ingest_text
+    source: website
+    content: |
+      Updated sales sheet: Pro costs $59/month.
+  - action: query
+    question: What does Pro cost?
+    expect_retrieval_mode: STRUCTURED_LOOKUP
+    expect_answer_contains: "$59"

@@ -1,0 +1,10 @@
+id: qualified_pricing_scope
+steps:
+  - action: ingest_text
+    source: website
+    content: |
+      Pro starts at $49/month when billed annually.
+  - action: query
+    question: What does Pro cost?
+    expect_retrieval_mode: STRUCTURED_LOOKUP
+    expect_answer_contains: $49

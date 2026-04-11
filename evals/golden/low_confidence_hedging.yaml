@@ -1,0 +1,10 @@
+id: low_confidence_hedging
+steps:
+  - action: ingest_url
+    locator: https://acme.com/blog/pricing-rumor
+    content: A March blog post mentioned Pro costs $49/month.
+    trust_tier: low
+  - action: query
+    question: What does Pro cost?
+    expect_answer_contains: not fully confident
+    expect_confidence_at_most: 0.3

@@ -1,0 +1,22 @@
+[
+  {
+    "question_id": "q-001",
+    "question_type": "knowledge-update",
+    "question": "What does Pro cost now?",
+    "answer": "$59/month",
+    "question_date": "2026-04-10",
+    "haystack_session_ids": ["session-1", "session-2"],
+    "haystack_dates": ["2026-04-01", "2026-04-09"],
+    "haystack_sessions": [
+      [
+        {"role": "user", "content": "What does Pro cost?"},
+        {"role": "assistant", "content": "The Pro plan costs $49/month.", "has_answer": true}
+      ],
+      [
+        {"role": "user", "content": "Pricing changed this week."},
+        {"role": "assistant", "content": "The Pro plan now costs $59/month.", "has_answer": true}
+      ]
+    ],
+    "answer_session_ids": ["session-2"]
+  }
+]

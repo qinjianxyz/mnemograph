@@ -1,0 +1,155 @@
+# Mnemograph
+
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue)](./pyproject.toml)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Tests](https://img.shields.io/badge/tests-105%20passing-brightgreen)](./tests)
+
+Mnemograph is a provenance-first memory engine for AI agents. It combines a deterministic SQLite canon, human-reviewable file mirrors, typed conflict handling, and LLM-assisted extraction and answer synthesis.
+
+## Features
+
+- Three-layer memory architecture: `working`, `knowledge`, `sources`
+- Structured SPO claim extraction with evidence and open questions
+- Deterministic reconciliation with typed conflicts and bitemporal fields
+- Confidence scoring with component-level clamping and graduated disclosure
+- Five retrieval modes with structured-first bias and fallback chain
+- Provenance-aware answering and changelog rendering
+- Consolidation, decay, and episodic-to-semantic distillation
+- Qdrant and Grafeo projection adapter boundaries
+- Golden-scenario eval harness with adversarial cases and a naive-RAG baseline
+- Local Ollama support verified with `qwen3.5:latest`
+
+## Install
+
+```bash
+cd projects/oss/mnemograph
+pip install -e ".[dev]"
+```
+
+For local-first runs:
+
+```bash
+ollama serve
+```
+
+For hosted OpenAI-compatible endpoints:
+
+```bash
+export OPENAI_API_KEY=your_key_here
+```
+
+## Run
+
+Scripted demo:
+
+```bash
+python scripts/demo_hobbes.py \
+  --base-dir demo-output \
+  --company-url https://vercel.com \
+  --base-url http://localhost:11434/v1 \
+  --model qwen3.5:latest \
+  --max-pages 1
+```
+
+CLI:
+
+```bash
+mnemograph demo --base-dir demo-output --company-url https://vercel.com --max-pages 1
+mnemograph ingest-url https://vercel.com --base-dir demo-output
+mnemograph ingest-text "Enterprise plan costs $500/month." --base-dir demo-output
+mnemograph query "What does Pro cost?" --base-dir demo-output
+mnemograph chat --base-dir demo-output
+```
+
+Eval runner:
+
+```bash
+mnemograph-eval evals/golden/ --base-dir /tmp/mnemograph-eval
+```
+
+Python API:
+
+```python
+from mnemograph.demo import build_default_client
+from mnemograph.engine import Mnemograph
+
+engine = Mnemograph("./memory", llm_client=build_default_client("qwen3.5:latest"))
+engine.ingest_url("https://vercel.com", max_pages=1)
+result = engine.query("What products does Vercel offer?")
+
+print(result.answer)
+print(result.provenance)
+```
+
+## Memory Layout
+
+`memory/working`
+- `active_context.json`
+- `session_history.json`
+
+`memory/knowledge`
+- one file per domain, for example `pricing.json`, `product.json`
+
+`memory/sources`
+- one file per source, named by canonical `source_id`
+
+## Benchmarks
+
+Latest local golden-suite command:
+
+```bash
+mnemograph-eval evals/golden/ --base-dir /tmp/mnemograph-eval
+```
+
+Latest local result:
+
+```text
+Local eval run (self-reported, reproducible)
+company_pricing_conflict: passed=2 failed=0 assertions=2 latency_ms=30051.3 cost_usd=0.0000
+conversation_distillation: passed=2 failed=0 assertions=2 latency_ms=14670.3 cost_usd=0.0000
+low_confidence_hedging: passed=2 failed=0 assertions=2 latency_ms=12969.7 cost_usd=0.0000
+messy_marketing_page: passed=3 failed=0 assertions=3 latency_ms=11933.1 cost_usd=0.0000
+provenance_chain: passed=4 failed=0 assertions=4 latency_ms=11246.7 cost_usd=0.0000
+qualified_pricing_scope: passed=2 failed=0 assertions=2 latency_ms=12461.5 cost_usd=0.0000
+source_disagreement: passed=2 failed=0 assertions=2 latency_ms=16.9 cost_usd=0.0000
+store_during_conversation: passed=3 failed=0 assertions=3 latency_ms=2647.3 cost_usd=0.0000
+temporal_supersession: passed=2 failed=0 assertions=2 latency_ms=25643.4 cost_usd=0.0000
+Summary
+cases=9 assertions=22 passed=22 failed=0
+```
+
+These runs are local proof artifacts, not third-party benchmark validation. They are useful for regression protection and architectural pressure-testing, but they should not be represented as external SOTA evidence.
+
+## Comparison To Alternatives
+
+Mnemograph is opinionated about structured canon quality. Compared with Mem0, it treats SPO claims, typed conflicts, and temporal validity as first-class rather than relying on generic update actions alone. Compared with Zep or Graphiti, it keeps a reviewable local canon and eval harness in front of graph projection. Compared with Letta or MemGPT, it prioritizes provenance chains, deterministic merge policy, and reproducible benchmark scenarios over self-editing memory UX.
+
+## Testing
+
+```bash
+pytest tests -v
+```
+
+The suite currently collects 105 tests covering schema bootstrap, source registration, chunking, crawl policy, extraction contracts, extraction filtering, LLM client behavior, deterministic reconciliation, lifecycle policies, retrieval, mirrors, eval harnesses, and end-to-end ingest/demo flows.
+
+## Docs
+
+- [PRD](./PRD.md)
+- [CHANGELOG](./CHANGELOG.md)
+- [CONTRIBUTING](./CONTRIBUTING.md)
+- [Foundation decision log](./docs/decisions/2026-04-09-foundation.md)
+- [System architecture](./docs/specs/2026-04-09-system-architecture.md)
+- [Benchmark methodology](./docs/specs/2026-04-09-benchmark-methodology.md)
+- [Canonical schema](./docs/specs/2026-04-09-canonical-schema.md)
+- [Ingestion and extraction design](./docs/specs/2026-04-09-ingestion-and-extraction-design.md)
+- [Reconciliation and lifecycle design](./docs/specs/2026-04-09-reconciliation-and-lifecycle-design.md)
+- [Retrieval, context, and chat design](./docs/specs/2026-04-09-retrieval-context-chat-design.md)
+- [Implementation plan](./docs/plans/2026-04-09-mnemograph-implementation-plan.md)
+
+## What We'd Improve With More Time
+
+- Real embedding retrieval with Qdrant
+- Graph traversal with Grafeo
+- More robust multi-pass extraction
+- Online consolidation and background compaction
+- A web UI for memory review and approval

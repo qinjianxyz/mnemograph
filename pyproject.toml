@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mnemograph"
+version = "0.1.0"
+description = "Provenance-first memory engine for AI agents"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Ray Qin"}]
+license = {text = "MIT"}
+dependencies = [
+  "httpx>=0.27,<1",
+  "PyYAML>=6,<7",
+]
+
+[project.urls]
+Homepage = "https://github.com/ray-qin/mnemograph"
+Repository = "https://github.com/ray-qin/mnemograph"
+Issues = "https://github.com/ray-qin/mnemograph/issues"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "PyYAML",
+]
+
+[project.scripts]
+mnemograph = "mnemograph.cli:main"
+mnemograph-eval = "mnemograph.evals.cli:main"
+mnemograph-benchmark = "mnemograph.benchmarks.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

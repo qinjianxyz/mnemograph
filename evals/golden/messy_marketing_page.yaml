@@ -1,0 +1,9 @@
+id: messy_marketing_page
+steps:
+  - action: ingest_text
+    source: website
+    content: |
+      Build faster with Acme Cloud for every team in seconds.
+    expect_claim_count_at_most: 0
+    expect_open_question_count_at_least: 1
+    expect_open_question_domain: company

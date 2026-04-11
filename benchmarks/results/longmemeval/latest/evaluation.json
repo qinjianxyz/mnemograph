@@ -1,0 +1,7 @@
+{
+  "status": "proxy_only",
+  "official_evaluator_ran": false,
+  "proxy_exact_match": 0.0,
+  "proxy_relaxed_exact_match": 0.3333333333333333,
+  "proxy_contains_match": 0.6666666666666666
+}

@@ -1,0 +1,12 @@
+Local eval run (self-reported, reproducible)
+company_pricing_conflict: passed=2 failed=0 assertions=2 latency_ms=30051.3 cost_usd=0.0000
+conversation_distillation: passed=2 failed=0 assertions=2 latency_ms=14670.3 cost_usd=0.0000
+low_confidence_hedging: passed=2 failed=0 assertions=2 latency_ms=12969.7 cost_usd=0.0000
+messy_marketing_page: passed=3 failed=0 assertions=3 latency_ms=11933.1 cost_usd=0.0000
+provenance_chain: passed=4 failed=0 assertions=4 latency_ms=11246.7 cost_usd=0.0000
+qualified_pricing_scope: passed=2 failed=0 assertions=2 latency_ms=12461.5 cost_usd=0.0000
+source_disagreement: passed=2 failed=0 assertions=2 latency_ms=16.9 cost_usd=0.0000
+store_during_conversation: passed=3 failed=0 assertions=3 latency_ms=2647.3 cost_usd=0.0000
+temporal_supersession: passed=2 failed=0 assertions=2 latency_ms=25643.4 cost_usd=0.0000
+Summary
+cases=9 assertions=22 passed=22 failed=0

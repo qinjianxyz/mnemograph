@@ -1,0 +1,24 @@
+id: source_disagreement
+steps:
+  - action: ingest_candidates
+    source: website
+    raw_text: Pro costs $49/month.
+    claims:
+      - subject: Plan:Pro
+        predicate: price_usd_monthly
+        object: "49"
+        object_type: literal
+        claim_text: Pro costs $49/month.
+        domain: pricing
+  - action: ingest_candidates
+    source: website
+    raw_text: Partner pricing sheet says Pro costs $59/month.
+    claims:
+      - subject: Plan:Pro
+        predicate: price_usd_monthly
+        object: "59"
+        object_type: literal
+        claim_text: Partner pricing sheet says Pro costs $59/month.
+        domain: pricing
+    expect_changelog_contains: CONFLICT
+    expect_conflict_type: source_quality_conflict

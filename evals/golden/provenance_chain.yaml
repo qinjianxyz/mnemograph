@@ -1,0 +1,13 @@
+id: provenance_chain
+steps:
+  - action: ingest_url
+    locator: https://acme.com/pricing
+    content: Pro costs $49/month.
+  - action: query
+    question: What does Pro cost?
+    expect_answer_contains: "$49"
+  - action: query
+    question: How do you know this?
+    expect_retrieval_mode: GRAPH_TRAVERSAL
+    expect_answer_contains: https://acme.com/pricing
+    expect_provenance_contains: https://acme.com/pricing

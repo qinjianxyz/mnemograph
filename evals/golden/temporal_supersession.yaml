@@ -1,0 +1,12 @@
+id: temporal_supersession
+steps:
+  - action: ingest_text
+    source: website
+    content: Stripe was led by John in 2024.
+  - action: ingest_text
+    source: website
+    content: Stripe is led by Jane in 2026.
+  - action: query
+    question: Who leads Stripe?
+    expect_retrieval_mode: STRUCTURED_LOOKUP
+    expect_answer_contains: Jane

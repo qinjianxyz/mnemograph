@@ -1,0 +1,79 @@
+========================================
+ Mnemograph Demo - Company Intelligence
+========================================
+
+=== Phase 0: Synthetic baseline ===
+Seeded 4 structured claims before crawling.
+Baseline domains: pricing=1, team=1, company=1, product=1
+Baseline sample claims:
+  [0.84] Vercel Pro plan costs $20/month. (pricing)
+  [0.84] Guillermo Rauch is the CEO of Vercel. (team)
+  [0.84] Vercel is headquartered in San Francisco. (company)
+  [0.82] Vercel offers Functions. (product)
+
+=== Phase 1: Ingesting https://vercel.com ===
+Crawled 1 pages (0 failed).
+Extracted 12 entities, 14 claims across 6 domains
+Domain breakdown: company=1, pricing=1, product=6, security=2, team=1, technology=3
+Sample claims:
+  [0.84] Vercel Pro plan costs $20/month. (pricing)
+  [0.84] Guillermo Rauch is the CEO of Vercel. (team)
+  [0.84] Vercel is headquartered in San Francisco. (company)
+  [0.82] Vercel offers Functions. (product)
+  [0.77] Vercel offers a highly optimized infrastructure and CDN. (technology)
+Filtered into open questions: 23
+
+=== Phase 2: Asking questions ===
+Q: What products does Vercel offer?
+Retrieval: STRUCTURED_LOOKUP -> 5 claims
+A: Vercel offers the native Next.js platform, developer tools and cloud infrastructure, AI Gateway, and pre-built templates for AI Apps.
+Confidence: 0.73
+
+Q: Who leads Vercel?
+Retrieval: STRUCTURED_LOOKUP -> 1 claims
+A: Guillermo Rauch leads Vercel as its CEO.
+Confidence: 0.84
+Provenance: Claim: Guillermo Rauch is the CEO of Vercel. [confidence: 0.84, domain: team]
+Evidence: "Vercel Pro plan costs $20/month. Vercel offers Functions, Edge Config, and AI SDK. Guillermo Rauch is the CEO of Vercel. Vercel is headquartered in San Francisco."
+Source: baseline:seed (ingested 2026-04-11)
+
+Q: What does Pro cost?
+Retrieval: STRUCTURED_LOOKUP -> 1 claims
+A: Vercel Pro plan costs $20/month.
+Confidence: 0.84
+Provenance: Claim: Vercel Pro plan costs $20/month. [confidence: 0.84, domain: pricing]
+Evidence: "Vercel Pro plan costs $20/month. Vercel offers Functions, Edge Config, and AI SDK. Guillermo Rauch is the CEO of Vercel. Vercel is headquartered in San Francisco."
+Source: baseline:seed (ingested 2026-04-11)
+
+=== Phase 3: Contradictory source ===
+Ingesting: "Vercel Pro plan costs $59/month."
+Changelog:
+  SUPERSEDED: Vercel Pro plan costs $20/month. -> Vercel Pro plan costs $59/month.
+
+=== Phase 4: Conversation ===
+User: Actually their enterprise plan is $500/mo.
+-> Stored as: Plan:Enterprise price_usd_monthly 500
+User: What does Enterprise cost?
+A: Enterprise costs $500/month.
+Confidence: 0.94
+Provenance: Claim: Enterprise plan costs $500/month. [confidence: 0.94, domain: pricing]
+Evidence: "Actually their enterprise plan is $500/mo."
+Source: user:conversation (ingested 2026-04-11)
+
+=== Phase 5: Final memory state ===
+memory/knowledge/company.json (1 claims)
+memory/knowledge/pricing.json (1 claims)
+memory/knowledge/product.json (6 claims)
+memory/knowledge/security.json (2 claims)
+memory/knowledge/team.json (1 claims)
+memory/knowledge/technology.json (3 claims)
+memory/sources/1708ec3ddc583c899400aab7bfa482829009d3e5610eae1da8ad1a9551beea22.json
+memory/sources/37dc122377b4f457ac3fd2de270b989a2385d4c1bd5bff40e57062e78704ccfd.json
+memory/sources/924b2037614a3d190819065cec67af40e99588efdfff8e9614aac6801f110d06.json
+memory/sources/a11de260849b0c2418383a0c826a13db3d9c32274c62e430727664d312a0affa.json
+memory/working/active_context.json
+memory/working/session_history.json
+
+========================================
+ Demo complete. Inspect memory
+========================================

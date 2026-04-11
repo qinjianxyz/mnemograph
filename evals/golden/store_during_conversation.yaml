@@ -1,0 +1,9 @@
+id: store_during_conversation
+steps:
+  - action: chat_turn
+    content: Actually their enterprise plan is $500/mo.
+  - action: query
+    question: What does Enterprise cost?
+    expect_retrieval_mode: STRUCTURED_LOOKUP
+    expect_answer_contains: "$500"
+    expect_provenance_contains: "user:"

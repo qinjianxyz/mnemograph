@@ -1,0 +1,6 @@
+{
+  "benchmark": "longmemeval",
+  "case_count": 3,
+  "replay_mode": "full-history",
+  "working_base_dir": "/tmp/mnemograph-longmemeval-working"
+}
