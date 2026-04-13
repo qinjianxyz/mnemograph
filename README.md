@@ -22,7 +22,6 @@ Mnemograph is a provenance-first memory engine for AI agents. It combines a dete
 ## Install
 
 ```bash
-cd projects/oss/mnemograph
 pip install -e ".[dev]"
 ```
 

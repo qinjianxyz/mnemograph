@@ -3,7 +3,6 @@
 ## Development setup
 
 ```bash
-cd projects/oss/mnemograph
 pip install -e ".[dev]"
 ```
 
